@@ -11,7 +11,7 @@
 7. 接下来的**片元着色器（Fragment Shader）**，则是完全可编程的，它用于实现逐片元（Per-Fragment）的着色操作。
 8. 最后，逐片元操作（Per-Fragment Operations）阶段负责执行很多重要的操作，例如**修改颜色、深度缓冲、进行混合**等，它不是可编程的，但具有很高的可配置性。
 
-![image-20220427200218115](https://gitee.com/hanbabang/hanbabang-pics/raw/master/image-20220427200218115.png)
+![image-20220427200218115](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220427200218115.png)
 
 ### 1. 概述
 
@@ -45,7 +45,7 @@
 
 ### 4. GPU 流水线（几何阶段 + 光栅化阶段）
 
-![image-20220427202002212](https://gitee.com/hanbabang/hanbabang-pics/raw/master/image-20220427202002212.png)
+![image-20220427202002212](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220427202002212.png)
 
 ```c++
 我的注释：在每次调用Draw Call之前，CPU需要向GPU发送很多内容，包括数据、状态和命令等。在这一阶段，CPU需要完成很多工作，例如检查渲染状态等。而一旦CPU完成了这些准备工作，GPU就可以开始本次的渲染。GPU的渲染能力是很强的，渲染200个还是2000个三角网格通常没有什么区别，因此渲染速度往往快于CPU提交命令的速度。如果Draw Call的数量太多，CPU就会把大量时间花费在提交Draw Call上，造成CPU的过载。提交大量很小的Draw Call会造成CPU的性能瓶颈，即CPU把时间都花费在准备Draw Call的工作上了。那么，一个很显然的优化想法就是把很多小的DrawCall合并成一个大的Draw Call，这就是批处理的思想。

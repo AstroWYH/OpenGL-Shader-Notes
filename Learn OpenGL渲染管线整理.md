@@ -2,7 +2,7 @@
 
 在OpenGL中，任何事物都在3D空间中，而屏幕和窗口却是2D像素数组，这导致OpenGL的大部分工作都是关于把3D坐标转变为适应你屏幕的2D像素。**3D坐标转为2D坐标的处理过程是由OpenGL的图形渲染管线**（Graphics Pipeline，大多译为管线，实际上指的是一堆原始图形数据途经一个输送管道，期间经过各种变化处理最终出现在屏幕的过程）管理的。图形渲染管线可以被划分为**两个主要部分**：<u>第一部分把你的3D坐标转换为2D坐标，第二部分是把2D坐标转变为实际的有颜色的像素。</u>
 
-![image-20220427192812559](https://gitee.com/hanbabang/hanbabang-pics/raw/master/image-20220427192812559.png)
+![image-20220427192812559](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220427192812559.png)
 
 ## 渲染管线概述
 
@@ -10,7 +10,7 @@
 
 有些着色器允许开发者自己配置，这就允许我们用自己写的着色器来替换默认的。这样我们就可以更细致地控制图形渲染管线中的特定部分了，而且因为它们运行在GPU上，所以它们可以给我们节约宝贵的CPU时间。OpenGL着色器是用**OpenGL着色器语言(OpenGL Shading Language, GLSL)**写成的，**蓝色部分**代表的是我们可以注入**自定义的着色器**的部分。
 
-![img](https://gitee.com/hanbabang/hanbabang-pics/raw/master/pipeline.png)
+![img](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/pipeline.png)
 
 1. 图形渲染管线包含很多部分，每个部分都将在转换顶点数据到最终像素这一过程中处理各自特定的阶段。我们以数组的形式传递3个3D坐标作为图形渲染管线的输入，用来表示一个三角形，这个数组叫做**顶点数据(Vertex Data)**；顶点数据是一系列顶点的集合。一个顶点(Vertex)是一个3D坐标的数据的集合。而顶点数据是用顶点属性(Vertex Attribute)表示的。
 2. 图形渲染管线的第一个部分是**顶点着色器(Vertex Shader)**，它把一个单独的顶点作为输入。顶点着色器主要的目的是把3D坐标转为屏幕上的2D坐标，同时顶点着色器允许我们对顶点属性进行一些基本处理。

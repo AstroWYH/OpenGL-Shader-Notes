@@ -6,7 +6,7 @@
 - 裁剪空间(Clip Space)
 - 屏幕空间(Screen Space)
 
-![coordinate_systems](https://gitee.com/hanbabang/hanbabang-pics/raw/master/coordinate_systems.png)
+![coordinate_systems](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/coordinate_systems.png)
 
 1. 局部坐标是对象相对于局部原点的坐标，也是物体起始的坐标。
 2. 下一步是将局部坐标变换为世界空间坐标，世界空间坐标是处于一个更大的空间范围的。这些坐标相对于世界的全局原点，它们会和其它物体一起相对于世界的原点进行摆放。
@@ -54,7 +54,7 @@
 
 正交投影矩阵**定义了一个类似立方体的平截头箱，它定义了一个裁剪空间**，**在这空间之外的顶点都会被裁剪掉**。创建一个正交投影矩阵需要指定可见视锥体的宽、高和长度。在使用正交投影矩阵变换至裁剪空间之后处于这个视锥体内的所有坐标将不会被裁剪掉。它的视锥体看起来像一个容器：
 
-![orthographic projection frustum](https://gitee.com/hanbabang/hanbabang-pics/raw/master/orthographic_frustum.png)
+![orthographic projection frustum](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/orthographic_frustum.png)
 
 上面的视锥体定义了可见的坐标，它由由**宽、高、近(Near)平面和远(Far)平面**所指定。任何出现在近平面之前或远平面之后的坐标都会被裁剪掉。正交视锥体直接将视锥体内部的所有坐标映射为标准化设备坐标，因为每个向量的w分量都没有进行改变；如果w分量等于1.0，透视除法则不会改变这个坐标。
 
@@ -70,7 +70,7 @@ glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
 ## 透视投影
 
-![perspective](https://gitee.com/hanbabang/hanbabang-pics/raw/master/perspective.png)
+![perspective](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/perspective.png)
 
 正如你看到的那样，由于透视，这两条线在很远的地方看起来会相交。这正是透视投影想要模仿的效果，它是使用透视投影矩阵来完成的。<u>这个投影矩阵将给定的视锥体范围映射到裁剪空间，**除此之外还修改了每个顶点坐标的w值，从而使得离观察者越远的顶点坐标w分量越大**<!--这句话怎么理解？-->。被变换到裁剪空间的坐标都会在-w到w的范围之间（任何大于这个范围的坐标都会被裁剪掉）。</u>
 
@@ -80,7 +80,7 @@ glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
 <u>OpenGL要求所有**可见的坐标都落在-1.0到1.0范围**内，作为顶点着色器最后的输出，因此，**一旦坐标在裁剪空间内之后，透视除法就会被应用到裁剪空间坐标上**：</u>
 
-![image-20220426205647474](https://gitee.com/hanbabang/hanbabang-pics/raw/master/image-20220426205647474.png)
+![image-20220426205647474](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220426205647474.png)
 
 <u>顶点坐标的每个分量都会除以它的w分量，距离观察者越远顶点坐标就会越小<!--这句话怎么理解？-->。这是也是w分量非常重要的另一个原因，它能够帮助我们进行透视投影</u><u>**。最后的结果坐标就是处于标准化设备空间中的**</u>。
 
@@ -98,7 +98,7 @@ glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)heigh
 
 同样，`glm::perspective`所做的其实就是创建了一个定义了可视空间的大**视锥体**，任何在这个**视锥体以外的东西最后都不会出现在裁剪空间体积内**，并且将会受到裁剪。一个透视视锥体可以被看作一个不均匀形状的箱子，在这个箱子内部的每个坐标都会被映射到裁剪空间上的一个点。下面是一张透视视锥体的图片：
 
-![ perspective_frustum](https://gitee.com/hanbabang/hanbabang-pics/raw/master/perspective_frustum.png)
+![ perspective_frustum](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/perspective_frustum.png)
 
 <u>它的**第一个参数**定义了**fov的值，它表示的是视野(Field of View)**，并且设置了观察空间的大小。如果想要一个**真实的观察效果**，它的值**通常设置为45.0f**，但想要一个末日风格的结果你可以将其设置一个更大的值。**第二个参数设置了宽高比**，由视口的宽除以高所得。**第三和第四个参数设置了视锥体的近和远平面**。</u>我们通常设置近距离为0.1f，而远距离设为100.0f。所有在近平面和远平面内且处于视锥体内的顶点都会被渲染。
 
@@ -108,7 +108,7 @@ glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)heigh
 
 我们为上述的每一个步骤都创建了一个变换矩阵：模型矩阵、观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程被变换到裁剪坐标：
 
-![image-20220426205658616](https://gitee.com/hanbabang/hanbabang-pics/raw/master/image-20220426205658616.png)
+![image-20220426205658616](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220426205658616.png)
 
 注意矩阵运算的顺序是相反的（记住我们需要**从右往左**阅读矩阵的乘法）。最后的顶点应该被赋值到**顶点着色器中的<var>gl_Position**</var>，OpenGL将会自动进行透视除法和裁剪。
 
@@ -122,7 +122,7 @@ glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)heigh
 
 #### OpenGL右手坐标系（DirectX左手坐标系）
 
-![coordinate_systems_right_handed](https://gitee.com/hanbabang/hanbabang-pics/raw/master/coordinate_systems_right_handed.png)
+![coordinate_systems_right_handed](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/coordinate_systems_right_handed.png)
 
 ```
 沿着正y轴方向伸出你的右臂，手指着上方。
