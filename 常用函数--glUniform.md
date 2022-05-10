@@ -1,3 +1,15 @@
 # 常用函数--glUniform
 
-![image-20220509203608415](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20220509203608415.png)
+## glUniform
+
+因为OpenGL在其核心是一个C库，所以它不支持类型重载，在函数参数不同的时候就要为其定义新的函数；glUniform是一个典型例子。这个函数有一个特定的后缀，标识设定的uniform的类型。可能的后缀有：
+
+- 后缀	含义
+
+- f	  函数需要一个float作为它的值
+- i	  函数需要一个int作为它的值
+- ui	函数需要一个unsigned int作为它的值
+- 3f	函数需要3个float作为它的值
+- fv	函数需要一个float向量/数组作为它的值
+
+每当你打算配置一个OpenGL的选项时就可以简单地根据这些规则选择适合你的数据类型的重载函数。在我们的例子里，我们希望分别设定uniform的4个float值，所以我们通过glUniform4f传递我们的数据(注意，我们也可以使用fv版本)。
