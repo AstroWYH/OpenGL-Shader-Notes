@@ -1,4 +1,4 @@
-# 坐标系统
+# OpenGL各顶点坐标空间
 
 - 模型空间(Local Space，局部空间，或者称为物体空间(Object Space))
 - 世界空间(World Space)
