@@ -38,7 +38,13 @@ OpenGL中有三种可以实现同步的方案，glFinish，glFlush，glFenceSync
 2. glFinish只适合不关心当前CPU和GPU执行状态的情况，比如一次提交了很多命令需要清空CommandQueue时。这在调试某一条指令时非常有用，可以在这个指令前后各加一个glFinish，来确保GPU当前只在执行这条指令，避免其他指令的干扰。
 3. glFenceSync可以监控GPU的执行状态，可以用它实现关于GPU状态的回调。实现同步的方式比较灵活，可以选择是卡CPU还是GPU。比如如果需要在CPU上使用渲染结果的话，需要glClientWaitSync，如果只是为了同步执行顺序的话，glWaitSync就可以了。不过要注意的是**glFenceSync**命令后面要加一个**glFlush**, 以免产生死锁（sync信号量还没有发送，当前线程就锁住了GPU，导致GPU没有机会解锁）。
 
+### command queue
 
+cpu有多少个gl线程，就有多少个command queue
+
+### gl线程
+
+cpu上需要render的线程
 
 #### 参考链接
 
