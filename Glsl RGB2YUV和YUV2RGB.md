@@ -1,5 +1,3 @@
-
-
 ```glsl
 const lowp mat3 mat_rgb_yuv = mat3(
     0.299, -0.168736, 0.5,
