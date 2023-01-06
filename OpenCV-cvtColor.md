@@ -1,3 +1,6 @@
+- cvtColor：对通道数或通道排列方式进行转换
+- 如cv::COLOR_RGB2BGR、cv::COLOR_RGBA2BGR、cv::COLOR_GRAY2BGR
+
 ```cpp
 // 构建imwrite需要的8UC3 BGR
 cv::Mat bgr_dump(height, width, CV_8UC3);
