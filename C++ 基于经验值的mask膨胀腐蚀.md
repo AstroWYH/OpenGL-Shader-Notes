@@ -20,7 +20,7 @@ int PostProcess(cv::Mat &mask, cv::Mat &alpha) {
     const unsigned char *ve = eroded.data;
 
     for (int i = 0; i < seg_height * seg_width; i++) {
-        // 以下大部分为经验值
+        // 以下为经验值
         if (v1[i] < 120 && v0[i] >= 127) { //小岛
             v0[i] = 0;
         } else if (v1[i] < 120 && v0[i] < 127) { // possible border

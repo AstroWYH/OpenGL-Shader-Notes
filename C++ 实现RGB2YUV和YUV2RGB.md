@@ -3,14 +3,15 @@ void yuvnv212rgb(const unsigned char *__restrict__ src, unsigned char *__restric
     for (int i = 0; i < image_height; i++) {
         for (int j = 0; j < image_width; j++) {
             int index = i * image_width + j;
+            // 对于i,j位置，计算出Y U V的值
             int y = (int) src[index];
             int u = (int) src[image_height * image_width + (i / 2) * image_width + j / 2 * 2 + 1];
             int v = (int) src[image_height * image_width + (i / 2) * image_width + j / 2 * 2 + 0];
-
+			// YUV->RGB，计算出R G B的值
             int r = y + ((359 * (v - 128)) >> 8);
             int g = y - ((88 * (u - 128) + 183 * (v - 128)) >> 8);
             int b = y + ((454  * (u - 128)) >> 8);
-
+			// 找到图像合适的位置，填入R G B的值
             dst[index * 3 + 0] = (uint8_t)clamp(r, 0, 255);
             dst[index * 3 + 1] = (uint8_t)clamp(g, 0, 255);
             dst[index * 3 + 2] = (uint8_t)clamp(b, 0, 255);
@@ -23,17 +24,19 @@ void rgb2yuv420p(const unsigned char *__restrict__ src, unsigned char *__restric
     int yuv_size = image_width * image_height;
     for (int i = 0; i < image_height; i++) {
         for (int j = 0; j < image_width; j++) {
+            // 对于i,j位置，计算出R G B的值
             int R = src[(i * image_width + j) * 3 + 0];
             int G = src[(i * image_width + j) * 3 + 1];
             int B = src[(i * image_width + j) * 3 + 2];
-
+			// RGB->YUV，计算出Y U V的值
             y = ((66 * R + 129 * G + 25 * B + 128) >> 8) + 16;
             u = ((-38 * R - 74 * G + 112 * B + 128) >> 8) + 128;
             v = ((112 * R - 94 * G - 18 * B + 128) >> 8) + 128;
             y = y < 16 ? 16 : (y > 255 ? 255 : y);
             u = u < 0 ? 0 : (u > 255 ? 255 : u);
             v = v < 0 ? 0 : (v > 255 ? 255 : v);
-
+			// 找到图像合适的位置，填入Y的值；找到图像下方合适的位置，填入U V的值
+            // nv21/12，都是4个Y--1组UV
             dst[i * image_width + j] = y;
             dst[yuv_size + (i >> 1) * image_width + (j & ~1) + 0] = isNV12 ? u : v;
             dst[yuv_size + (i >> 1) * image_width + (j & ~1) + 1] = isNV12 ? v : u;
