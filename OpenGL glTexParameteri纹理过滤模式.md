@@ -2,7 +2,7 @@
 
 纹理的坐标系统叫做ST坐标系统，和xy坐标系统一样，s对应x，t对应y，因此GL_TEXTURE_WRAP_S和GL_TEXTURE_WRAP_T表示超出范围的纹理处理方式，可以设置的值如下：GL_CLAMP_TO_EDGE、GL_REPEAT、GL_MIRRORED_REPEAT。
 
-将纹理的坐标值设置超出界限，纹理坐标如下：后面的部分使用纹理的最后像素的颜色值。
+**将纹理的坐标值设置超出界限**，纹理坐标如下：后面的部分使用纹理的最后像素的颜色值。
 
 ```java
 var texBuffer = GLTools.array2Buffer(
@@ -44,7 +44,11 @@ var texBuffer = GLTools.array2Buffer(
 
 #### 邻近过滤GL_NEAREST （Nearest Neighbor Filtering）
 
-OpenGL默认的纹理过滤方式。当设置为GL_NEAREST的时候，OpenGL会选择中心点最接近纹理坐标的那个像素。下图中你可以看到四个像素，加号代表纹理坐标。左上角那个纹理像素的中心距离纹理坐标最近，会被选择为样本颜色：
+OpenGL默认的纹理过滤方式。当设置为GL_NEAREST的时候，OpenGL会选择中心点最接近纹理坐标的那个像素。下图中**你可以看到四个像素，加号代表纹理坐标**（说明**此时是纹理小于渲染屏幕，纹理需要放大MAG**）。左上角那个纹理像素的中心距离纹理坐标最近，会被选择为样本颜色
+
+```cpp
+我的理解（可能有误）：渲染屏幕的这4个像素，都会被渲染成这个颜色。即使有误，不管怎么说，不管是需要放大还是缩小，考虑多纹理1像素，或多像素1纹理，就能想通。
+```
 
 ![image-20221125105043403](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20221125105043403.png)
 
@@ -59,6 +63,7 @@ OpenGL默认的纹理过滤方式。当设置为GL_NEAREST的时候，OpenGL会�
 
 ![image-20221125105134930](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20221125105134930.png)
 
-- GL_NEAREST产生了颗粒状的图案，我们能够清晰看到组成纹理的像素。
-- 而GL_LINEAR能够产生更平滑的图案，很难看出单个的纹理像素。
+- GL_NEAREST产生了**颗粒状**的图案，我们能够**清晰**看到组成纹理的像素。
+- 而GL_LINEAR能够产生**更平滑**的图案，很难看出单个的纹理像素。
 - GL_LINEAR可以产生更真实的输出，但有些开发者更喜欢8-bit风格，所以他们会用GL_NEAREST选项。
+- GL_LINEAR比GL_NEAREST性能慢一些。

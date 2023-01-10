@@ -1,8 +1,8 @@
 ### **VBO 和 EBO**
 
 - VBO（Vertex Buffer Object）是指顶点缓冲区对象，而 EBO（Element Buffer Object）是指图元索引缓冲区对象**，VBO 和 EBO 实际上是对同一类 Buffer 按照用途的不同称呼。**
-- **OpenGL ES 2.0 编程中，用于绘制的顶点数组数据首先保存在 CPU 内存**，在调用 glDrawArrays 或者 glDrawElements 等进行绘制时，需要将顶点数组数据从 CPU 内存拷贝到显存。
-- **但是很多时候我们没必要每次绘制的时候都去进行内存拷贝**，如果可以在显存中缓存这些数据，就可以在很大程度上降低内存拷贝带来的开销。
+- **OpenGL ES 2.0 编程中，用于绘制的顶点数组数据首先保存在 CPU 内存**，在调用 **glDrawArrays** 或者 glDrawElements 等进行绘制时，**需要将顶点数组数据从 CPU 内存拷贝到显存。**
+- **但是很多时候我们没必要每次绘制的时候都去进行内存拷贝**，如果可以**在显存中缓存这些数据**，就可以在很大程度上降低内存拷贝带来的开销。
 - OpenGL ES 3.0 编程中， VBO 和 EBO 的出现就是为了解决这个问题。
 - VBO 和 EBO 的作用是在显存中提前开辟好一块内存**，用于缓存顶点数据或者图元索引数据，从而避免每次绘制时的 CPU 与 GPU 之间的内存拷贝，可以改进渲染性能，降低内存带宽和功耗。**
 - **OpenGL ES 3.0 支持两类缓冲区对象：顶点数组缓冲区对象、图元索引缓冲区对象。**
@@ -140,9 +140,16 @@ glBindVertexArray(m_VaoId);
 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void *)0)
 ```
 
+```txt
+我的理解：
+VBO：用于绘制的顶点数组数据首先保存在 CPU 内存，在调用glDrawArrays 或者 glDrawElements 等进行绘制时，需要将顶点数组数据从 CPU 内存拷贝到显存。但是很多时候我们没必要每次绘制的时候都去进行内存拷贝，如果可以在显存中缓存这些数据，就可以在很大程度上降低内存拷贝带来的开销。VBO 和 EBO 的作用是在显存中提前开辟好一块内存，用于缓存顶点数据或者图元索引数据，从而避免每次绘制时的 CPU 与 GPU 之间的内存拷贝，可以改进渲染性能，降低内存带宽和功耗。
+
+VAO：就是管理VBO用的，每次bind VBO，会伴随着glBindBuffer 、glEnableVertexAttribArray、 glVertexAttribPointer一大堆流程，如果vbo1和vbo2进行来回切换，就很不方便，代码一大堆。而如果vbo1提前在vao1提前配置一遍，vbo2在vao2提前配置一遍，后面来回切换就只需要vao1和vao2换bind就行了，代码上方便很多。
+```
+
 ### **UBO**
 
-- UBO，**Uniform Buffer Object** 顾名思义，**就是一个装载 uniform 变量数据的缓冲区对象，本质上跟 OpenGL ES 的其他缓冲区对象没有区别**，创建方式也大致一致，都是显存上一块用于储存特定数据的区域。
+- UBO，**Uniform Buffer Object** 顾名思义，**就是一个装载 uniform 变量数据的缓冲区对象，本质上跟 OpenGL ES 的其他缓冲区对象没有区别**，创建方式也大致一致，都是**显存上一块用于储存特定数据的区域**。
 - **当数据加载到 UBO ，那么这些数据将存储在 UBO 上，而不再交给着色器程序，所以它们不会占用着色器程序自身的 uniform 存储空间**，UBO 是一种新的从内存到显存的数据传递方式，另外 UBO 一般需要与 uniform 块配合使用。
 - 本例将 MVP 变换矩阵设置为一个 uniform 块，即我们后面创建的 UBO 中将保存 3 个矩阵。
 
@@ -194,9 +201,9 @@ glBindBuffer(GL_UNIFORM_BUFFER, 0);
 ### **FBO**
 
 - **FBO（Frame Buffer Object）即帧缓冲区对象，实际上是一个可添加缓冲区的容器，可以为其添加纹理或渲染缓冲区对象（RBO）。**
-- **FBO 本身不能用于渲染，只有添加了纹理或者渲染缓冲区之后才能作为渲染目标，它仅且提供了 3 个附着（Attachment），分别是颜色附着、深度附着和模板附着。**
+- **FBO 本身不能用于渲染，只有添加了纹理或者渲染缓冲区之后才能作为渲染目标，它仅且提供了 3 种附着（Attachment），分别是颜色附着、深度附着和模板附着。**
 - RBO（Render Buffer Object）即渲染缓冲区对象，是一个由应用程序分配的 2D 图像缓冲区。渲染缓冲区可以用于分配和存储颜色、深度或者模板值，可以用作 FBO 中的颜色、深度或者模板附着。
-- 使用 FBO 作为渲染目标时，首先需要为 FBO 的附着添加连接对象，如颜色附着需要连接纹理或者渲染缓冲区对象的颜色缓冲区。
+- 使用 FBO 作为渲染目标时，首先需要为 **FBO 的附着添加连接对象**，如**颜色附着需要连接纹理**或者渲染缓冲区对象的颜色缓冲区。
 
 ![image-20221221190159876](https://hanbabang-1311741789.cos.ap-chengdu.myqcloud.com/Pics/image-20221221190159876.png)
 
@@ -206,7 +213,7 @@ glBindBuffer(GL_UNIFORM_BUFFER, 0);
 - TBO 需要配合缓冲区纹理（Buffer Texture）一起使用，**Buffer Texture 是一种一维纹理，其存储数据来自纹理缓冲区对象（TBO），用于允许着色器访问由缓冲区对象管理的大型内存表**。
 - **在 GLSL 中，只能使用 texelFetch 函数访问缓冲区纹理，缓冲区纹理的采样器类型为 samplerBuffer 。**
 - 生成一个 TBO 的方式跟 VBO 类似，只需要绑定到 GL_TEXTURE_BUFFER ，而生成缓冲区纹理的方式与普通的 2D 纹理一样。
-- TBO相比传统的纹理方式，可以大大的提高性能。
+- TBO相比传统的纹理方式，**可以大大的提高性能。**
 
 ```cpp
 //生成一个 Buffer Texture 
@@ -232,13 +239,13 @@ delete [] bigData;
 #extension GL_EXT_texture_buffer : require
 in mediump vec2 v_texCoord;
 layout(location = 0) out mediump  vec4 outColor;
-uniform mediump samplerBuffer u_buffer_tex; // samplerBuffer
+uniform mediump samplerBuffer u_buffer_tex; // samplerBuffer 缓冲区纹理的采样器
 uniform mediump sampler2D u_2d_texture;
 uniform mediump int u_BufferSize;
 void main()
 {
     mediump int index = int((v_texCoord.x +v_texCoord.y) /2.0 * float(u_BufferSize - 1));
-    mediump float value = texelFetch(u_buffer_tex, index).x; // texelFetch
+    mediump float value = texelFetch(u_buffer_tex, index).x; // 使用 texelFetch 函数访问缓冲区纹理
     mediump vec4 lightColor = vec4(vec3(vec2(value / float(u_BufferSize - 1)), 0.0), 1.0);
     outColor = texture(u_2d_texture, v_texCoord) * lightColor;
 }
@@ -249,7 +256,7 @@ void main()
 ```cpp
 glActiveTexture(GL_TEXTURE0);
 glBindTexture(GL_TEXTURE_BUFFER, m_TboTexId);
-glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, m_TboId); // glTexBuffer
+glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, m_TboId); // 多一个glTexBuffer步骤
 GLUtils::setInt(m_ProgramObj, "u_buffer_tex", 0);
 ```
 
@@ -257,7 +264,8 @@ GLUtils::setInt(m_ProgramObj, "u_buffer_tex", 0);
 
 ### **PBO**
 
-- PBO （**Pixel Buffer Object**）是 OpenGL ES 3.0 的概念，称为像素缓冲区对象，主要被用于异步像素传输操作。PBO 仅用于执行像素传输，不连接到纹理，且与 FBO （帧缓冲区对象）无关。
+- PBO （**Pixel Buffer Object**）是 OpenGL ES 3.0 的概念，称为像素缓冲区对象，主要被用于异步像素传输操作。
+- **PBO 仅用于执行像素传输**，**不连接到纹理**，且**与 FBO （帧缓冲区对象）无关。**
 - **PBO 类似于 VBO（顶点缓冲区对象），PBO 开辟的也是 GPU 缓存，而存储的是图像数据。**
 - PBO 可以在 GPU 的缓存间快速传递像素数据，不影响 CPU 时钟周期，除此之外，PBO 还支持异步传输。
 - **PBO 类似于“以空间换时间”策略，在使用一个 PBO 的情况下，性能无法有效地提升，通常需要多个 PBO 交替配合使用。**

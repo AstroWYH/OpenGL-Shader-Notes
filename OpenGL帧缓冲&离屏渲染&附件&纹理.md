@@ -98,7 +98,7 @@ GLuint getAttachmentTexture()
 
 创建完纹理后，紧接着就是把它附加到帧缓冲上：
 
-```glsl
+```C++
 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 
 glFramebufferTexture2D 函数参数：

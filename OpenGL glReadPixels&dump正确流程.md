@@ -1,3 +1,5 @@
+简述：glReadPixels读取的是当前cur_fbo上attached的纹理。如果**想要读取的纹理**当前未bind fbo，则需要创建并bind fbo，并通过glFramebufferTexture2D将**想要读取的纹理**bind到fbo上，再进行读取（fbo可新创建，无限制）。
+
 ```cpp
 std::vector<uint8_t> output;
 output.resize(gpu_buffer.width() * gpu_buffer.height() * 4);

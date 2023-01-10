@@ -36,7 +36,7 @@ glDisableVertexAttribArray(mPositionLocation);
 glDisableVertexAttribArray(mTextureCoordinateLocation);
 glBindTexture(GL_TEXTURE_2D, 0);
 
-// 根据fbo_attached_tex！=dst_tex的判断，这里进行fbo的还原bind fbo_attached_tex，or不进行
+// 根据fbo_attached_tex!=dst_tex的判断，这里进行fbo的还原bind fbo_attached_tex，or不进行
 if (dst_tex != GL_NONE && fbo_attached_tex != dst_tex) {
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                            is_oes ? GL_TEXTURE_EXTERNAL_OES : GL_TEXTURE_2D, fbo_attached_tex, 0);
