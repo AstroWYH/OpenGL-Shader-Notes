@@ -43,7 +43,7 @@ void ReadBuffer(void *buffer, void *vu_buffer, int stride, int scanline) {
     int paddingW = (mWidth + 63) / 64 * 64;
     int paddingH = (mHeight + 63) / 64 * 64;
 
-    ANC_LOGD("ReadBuffer: paddingH: %d mHeight: %d paddingW: %d mWidth: %d stride: %d, scanline: %d",
+    LOGD("ReadBuffer: paddingH: %d mHeight: %d paddingW: %d mWidth: %d stride: %d, scanline: %d",
                 paddingH, mHeight, paddingW, mWidth, stride, scanline);
 
     // 读取过程反过来，从addr拷贝回buffer、vu_buffer

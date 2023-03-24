@@ -15,7 +15,7 @@ static const char *box_combined_fsh = R"(
             sum = sum + (center_color - sum)/float(total);
         }
     }
-    // 这是另一种写法，和上面其实一样
+    // 另一种写法，和上面其实一样
     // highp int total = radius + radius + 1;
     // total = total * total;
     // fragColor0 = sum/float(total);

@@ -41,7 +41,7 @@
                 cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2, 8);
 
     // 将dump_mat(BGR格式)写入.jpg文件
-    ANC_LOGD("[wyh] RENDER g_frame_cnt:%lld", g_frame_cnt);
+    LOGD("[wyh] RENDER g_frame_cnt:%lld", g_frame_cnt);
     fsp::DumpMat(fsp::StrCat("/data/local/tmp/dump_test/" + std::to_string(g_frame_cnt) +
                              ".jpg"), dump_mat, cv::COLOR_RGBA2BGR);
 

@@ -5,9 +5,9 @@
 #define DRM_FORMAT_NV12		fourcc_code('N', 'V', '1', '2') /* 2x2 subsampled Cr:Cb plane */
 #define DRM_FORMAT_NV21		fourcc_code('N', 'V', '2', '1') /* 2x2 subsampled Cb:Cr plane */
 
-bool HardwareBufferUtils::Fd2Texture(int fd, int fd_offset, int width, int height, int stride,
-                                        AncCommonImageType type, GLuint *texture) {
-    EGLint attrib_type = type == ANC_COMMON_IMG_NV21 ? DRM_FORMAT_NV21 : DRM_FORMAT_NV12;
+bool Fd2Texture(int fd, int fd_offset, int width, int height, int stride,
+                                        CommonImageType type, GLuint *texture) {
+    EGLint attrib_type = type == IMG_NV21 ? DRM_FORMAT_NV21 : DRM_FORMAT_NV12;
     EGLint attrib_list[] = {
             EGL_WIDTH, width,
             EGL_HEIGHT, height,
@@ -30,14 +30,14 @@ bool HardwareBufferUtils::Fd2Texture(int fd, int fd_offset, int width, int heigh
             attrib_list);
 
     if (egl_image == EGL_NO_IMAGE)
-        ANC_LOGE("eglCreateImageKHR egl_image is null");
+        LOGE("eglCreateImageKHR egl_image is null");
 
     if (EGL_BAD_PARAMETER == eglGetError())
-        ANC_LOGE("eglCreateImageKHR not support");
+        LOGE("eglCreateImageKHR not support");
 
     if (!(*texture))
         glGenTextures(1, texture);
-    ANC_LOGD("eglCreateImageKHR CreateTexture texture %d", *texture);
+    LOGD("eglCreateImageKHR CreateTexture texture %d", *texture);
 
     glBindTexture(GL_TEXTURE_EXTERNAL_OES, *texture);
     glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

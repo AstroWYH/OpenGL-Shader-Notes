@@ -1,25 +1,25 @@
 ```cpp
 #include <android/hardware_buffer.h>
 
-bool HardwareBufferUtils::Buffer2Texture(void* buffer, AncHumBufferType type, GLuint *texture) {
+bool Buffer2Texture(void* buffer, HumBufferType type, GLuint *texture) {
     if (buffer == nullptr) {
-        ANC_LOGE("input buffer is null!");
+        LOGE("input buffer is null!");
         return false;
     }
 
     EGLClientBuffer eglClientBuffer;
-    if (type == ANC_HUM_BUFFER_TYPE_HARDWAREBUFFER)
+    if (type == HUM_BUFFER_TYPE_HARDWAREBUFFER)
         eglClientBuffer = eglGetNativeClientBufferANDROID(static_cast<AHardwareBuffer *>(buffer));
     else
         eglClientBuffer = buffer;
 
     if (eglClientBuffer == nullptr) {
-        ANC_LOGE("eglClientBuffer is null!");
+        LOGE("eglClientBuffer is null!");
         return false;
     }
 
     if (eglGetError() != EGL_SUCCESS) {
-        ANC_LOGE("eglCreateImageKHR error!");
+        LOGE("eglCreateImageKHR error!");
         return false;
     }
 
@@ -35,12 +35,12 @@ bool HardwareBufferUtils::Buffer2Texture(void* buffer, AncHumBufferType type, GL
                                               attrib_list);
 
     if (EGL_BAD_PARAMETER == eglGetError())
-        ANC_LOGD("eglCreateImageKHR not support");
+        LOGD("eglCreateImageKHR not support");
 
 
     if (!(*texture))
         glGenTextures(1, texture);
-    ANC_LOGD("eglCreateImageKHR CreateTexture texture %d", *texture);
+    LOGD("eglCreateImageKHR CreateTexture texture %d", *texture);
 
     glBindTexture(GL_TEXTURE_EXTERNAL_OES, *texture);
     glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

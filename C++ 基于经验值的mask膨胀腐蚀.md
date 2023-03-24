@@ -1,5 +1,5 @@
 ```cpp
-int PostProcess(cv::Mat &mask, cv::Mat &alpha) {
+int Morph(cv::Mat &mask, cv::Mat &alpha) {
     int seg_width = alpha.cols;
     int seg_height = alpha.rows;
     const int band = 3;
@@ -20,12 +20,10 @@ int PostProcess(cv::Mat &mask, cv::Mat &alpha) {
     const unsigned char *ve = eroded.data;
 
     for (int i = 0; i < seg_height * seg_width; i++) {
-        // 以下为经验值
-        if (v1[i] < 120 && v0[i] >= 127) { //小岛
+        if (v1[i] < 120 && v0[i] >= 127) {
             v0[i] = 0;
-        } else if (v1[i] < 120 && v0[i] < 127) { // possible border
+        } else if (v1[i] < 120 && v0[i] < 127) {
             if (vd[i] >= 192 && ve[i] < 64) {
-                // in band, 保留下来
                 v0[i] = v0[i];
             } else {
                 v0[i] = 0;

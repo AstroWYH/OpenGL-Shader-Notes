@@ -1,7 +1,7 @@
 ## 两层for循环遍历图像[i, j]
 
 ```cpp
-int SmoothByPreview(cv::Mat &seg, std::vector<unsigned char> &history_seg_image) {
+int Smooth(cv::Mat &seg, std::vector<unsigned char> &history_seg_image) {
     // seg为当前帧mask
     // history_seg_image为上一帧mask
     // diff为seg和history_seg_image的绝对值差异图
@@ -48,7 +48,7 @@ int SmoothByPreview(cv::Mat &seg, std::vector<unsigned char> &history_seg_image)
 ## 矩阵运算
 
 ```cpp
-int SmoothByPreviewOpt(cv::Mat &seg, std::vector<unsigned char> &history_seg_image) {
+int SmoothOpt(cv::Mat &seg, std::vector<unsigned char> &history_seg_image) {
     int size = seg.rows * seg.cols;
     if (history_seg_image.size() != size) {
         history_seg_image.resize(size);

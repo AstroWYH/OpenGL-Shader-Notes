@@ -33,7 +33,7 @@ EGLBoolean eglInitialize(EGLDisplay display, EGLint *majorVersion, EGLint *minor
 #### 3 获取配置
 
 ```cpp
-EGLBoolean eglChooseChofig(EGLDispay display, 
+EGLBoolean eglChooseConfig(EGLDispay display, 
                            const EGLint *attribList,
                            EGLConfig *config,
                            EGLint maxReturnConfigs,
@@ -151,7 +151,7 @@ EGLBoolean eglGetConfigAttrib(EGLDisplay display, // 指定显示的连接
 让 EGL 选择配置：
 
 ```cpp
-EGLBoolean eglChooseChofig(EGLDispay display, // 指定显示的连接
+EGLBoolean eglChooseConfig(EGLDispay display, // 指定显示的连接
                            const EGLint *attribList, // 指定 configs 匹配的属性列表，可以为 NULL
                            EGLConfig *config,   // 调用成功，返会符合条件的 EGLConfig 列表
                            EGLint maxReturnConfigs, // 最多返回的符合条件的 GLConfig 数
